@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Camera UI"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _camera:CameraUI;
+			private var _loader:Loader;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				button.enabled = CameraUI.isSupported;
+			}
+			
+			private function _onButton_ClickHandler(event:MouseEvent):void
+			{
+				if(!_camera)
+				{
+					_camera = new CameraUI();
+					_camera.addEventListener(MediaEvent.COMPLETE, _onCamera_CompleteHandler);
+				}
+				_camera.launch(MediaType.IMAGE);
+				//_camera.launch(MediaType.VIDEO);
+			}
+			
+			private function _onCamera_CompleteHandler(event:MediaEvent):void
+			{
+				var mediaPromise:MediaPromise = event.data;
+				
+				if(!_loader)
+				{
+					_loader = new Loader();
+					_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _onMediaPromise_LoadedHandler);
+				}
+				
+				_loader.loadFilePromise(mediaPromise);
+			}
+			
+			private function _onMediaPromise_LoadedHandler(event:Event):void
+			{
+				var loadedInfo:LoaderInfo = event.target as LoaderInfo;
+				image.source = loadedInfo.loader.content;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" 
+						  horizontalAlign="center"
+						  gap="10"/>
+	</s:layout>
+	
+	<s:Button label="Take Picture"
+			  click="_onButton_ClickHandler(event)"
+			  id="button"/>
+	
+	<s:Image id="image"/>
+	
+</s:View>

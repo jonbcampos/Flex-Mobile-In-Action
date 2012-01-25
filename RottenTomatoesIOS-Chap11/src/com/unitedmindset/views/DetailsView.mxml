@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Loading...">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	<s:navigationContent>
+		<s:Button id="homeButton" label="Menu"
+				  includeInLayout="false" visible="false"
+				  includeInLayout.portrait="true" visible.portrait="true"/>
+	</s:navigationContent>
+	
+	<s:actionContent>
+		<s:BusyIndicator id="busyIndicator" 
+						 verticalCenter="0" horizontalCenter="0"
+						 includeInLayout="false" visible="false"/>
+		<s:Spacer width="10"/>
+	</s:actionContent>
+	
+	<s:layout>
+		<s:HorizontalLayout gap="0"/>
+	</s:layout>
+	
+	<!-- left side -->
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" 
+				  clipAndEnableScrolling="true">
+			
+			<!-- first section -->
+			<s:HGroup width="100%"
+					  paddingBottom="5" paddingLeft="5"
+					  paddingRight="5" paddingTop="5">
+				
+				<!-- left, image -->
+				<s:Image id="image" width="180" height="267"/>
+				
+				<!-- right, scores -->
+				<s:VGroup width="100%">
+					<!-- audience section -->
+					<s:Label width="100%" text="Audience Score"/>
+					<s:HGroup width="100%"
+							  paddingBottom="5" paddingLeft="5"
+							  paddingRight="5" paddingTop="5">
+						<s:Image id="audienceScoreImage"/>
+						<s:Label id="audienceScoreDetails"
+								 width="100%"/>
+					</s:HGroup>
+					<!-- critics section -->
+					<s:Label width="100%" text="Critics Score"/>
+					<s:HGroup width="100%"
+							  paddingBottom="5" paddingLeft="5"
+							  paddingRight="5" paddingTop="5">
+						<s:Image id="criticsScoreImage"/>
+						<s:Label id="criticsScoreDetails"
+								 width="100%"/>
+					</s:HGroup>
+				</s:VGroup>
+			</s:HGroup>
+			
+			<!-- second group -->
+			<s:Label width="100%" text="Synopsis" styleName="separatorLabel"/>
+			<s:Label id="details" width="100%" styleName="paragraphLabel"/>
+			<!-- third group -->
+			<s:Label width="100%" text="Critic's Consensus" styleName="separatorLabel"/>
+			<s:Label id="criticConsensus" width="100%" styleName="paragraphLabel"/>
+			
+		</s:VGroup>
+	</s:Scroller>
+	
+	<!-- center bar -->
+	<s:Line height="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="#000000" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	
+	<!-- right side -->
+	<s:VGroup width="100%" height="100%">
+		<s:Label width="100%" text="Reviews" styleName="separatorLabel"/>
+		
+		<s:Label id="errorLabel" width="100%" 
+				 verticalCenter="0"
+				 visible="false" includeInLayout="false"/>
+		
+		<s:List width="100%" height="100%" id="reviewsList">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:IconItemRenderer 
+						labelFunction="{RendererUtil.reviewLabelFunction}"
+						messageField="quote"
+						iconField="icon">
+						<fx:Script>
+							<![CDATA[
+								import com.unitedmindset.utils.RendererUtil;
+							]]>
+						</fx:Script>
+					</s:IconItemRenderer>
+
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+	</s:VGroup>
+	
+</s:View>

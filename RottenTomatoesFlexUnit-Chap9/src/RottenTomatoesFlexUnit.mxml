@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+							xmlns:s="library://ns.adobe.com/flex/spark"
+							creationComplete="creationCompleteHandler(event)" 
+							xmlns:flexui="flexunit.flexui.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import test.unitedmindset.services.RotTomServiceTest;
+			import test.unitedmindset.utils.RendererUtilTest;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				runner.runWithFlexUnit4Runner();
+			}
+			
+			public function currentRunTestSuite():Array
+			{
+				var tests:Array = [];
+				tests.push(test.unitedmindset.utils.RendererUtilTest);
+				tests.push(test.unitedmindset.services.RotTomServiceTest);
+				return tests;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<flexui:FlexUnitTestRunnerUIMobile id="runner">
+		<flexui:data>
+			<flexui:FirstViewDataVO tests="{currentRunTestSuite()}" 
+									projectName="RottenTomatoesAppTests"/>
+		</flexui:data>
+	</flexui:FlexUnitTestRunnerUIMobile>
+</s:Application>

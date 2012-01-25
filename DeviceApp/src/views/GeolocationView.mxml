@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Geolocation"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Geolocation;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _geolocation:Geolocation;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler
+				if(!Geolocation.isSupported)
+					return;
+				
+				_geolocation = new Geolocation();
+				if(!_geolocation.muted)
+					_geolocation.addEventListener(GeolocationEvent.UPDATE, _onGeolocation_UpdateHandler);
+				else
+					dataLabel.text = "Geolocation Muted";
+				_geolocation.addEventListener(StatusEvent.STATUS, _onGeolocation_StatusHandler);
+				_geolocation.setRequestedUpdateInterval(10000);
+			}
+			
+			private function _onGeolocation_StatusHandler(event:StatusEvent):void
+			{
+				//status handler
+				if(_geolocation.muted)
+				{
+					_geolocation.removeEventListener(GeolocationEvent.UPDATE, _onGeolocation_UpdateHandler);
+					dataLabel.text = "Geolocation Muted";
+				} else {
+					_geolocation.addEventListener(GeolocationEvent.UPDATE, _onGeolocation_UpdateHandler);
+				}
+			}
+			
+			private function _onGeolocation_UpdateHandler(event:GeolocationEvent):void
+			{
+				//update handler
+				var s:String = "";
+				s += "Lat: "+event.latitude+"\n";
+				s += "Long: "+event.longitude+"\n";
+				s += "Altitude: "+event.altitude+"\n";
+				s += "Hor. Accuracy: "+event.horizontalAccuracy+"\n";
+				s += "Vert. Accuracy: "+event.verticalAccuracy+"\n";
+				s += "Speed: "+event.speed+"\n";
+				s += "Heading: "+event.heading+"\n";
+				s += "Timestamp: "+event.timestamp+"\n";
+				dataLabel.text = s;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Label id="dataLabel" width="100%"/>
+</s:View>

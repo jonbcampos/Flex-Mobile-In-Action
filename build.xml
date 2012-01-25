@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Master Build File" default="build">
+	
+	<target name="build">
+		<ant antfile="RottenTomatoesLibrary/build.xml" inheritall="false"/>
+		<ant antfile="RottenTomatoesAndroid/build.xml" inheritall="false"/>
+		<ant antfile="RottenTomatoesQNX/build.xml" inheritall="false"/>
+		<ant antfile="RottenTomatoesIOS/build.xml" inheritall="false"/>
+	</target>
+	
+</project>

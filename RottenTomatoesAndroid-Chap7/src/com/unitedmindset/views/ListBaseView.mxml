@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Loading...">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:states>
+		<s:State name="portrait"/>
+		<s:State name="landscape"/>
+	</s:states>
+	<s:navigationContent>
+		<s:Button id="homeButton" label="Menu"
+				  includeInLayout="false" visible="false"
+				  includeInLayout.portrait="true" visible.portrait="true"/>
+	</s:navigationContent>
+	
+	<s:VGroup width="100%" height="100%">
+		<s:List width="100%" height="100%" id="list">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:IconItemRenderer
+						iconField="thumbnailPoster"
+						iconWidth="61" iconHeight="91"
+						labelField="title"
+						messageFunction="{RendererUtil.movieMessageFunction}">
+						<fx:Script>
+							<![CDATA[
+								import com.unitedmindset.utils.RendererUtil;
+							]]>
+						</fx:Script>
+					</s:IconItemRenderer>
+
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+		<s:ActionBar id="bottomActionBar" width="100%"/>
+	</s:VGroup>
+	
+	<!-- error label -->
+	<s:Label id="errorLabel" width="100%" 
+			 verticalCenter="0"
+			 visible="false" includeInLayout="false"/>
+	
+	<s:BusyIndicator id="busyIndicator" 
+					 verticalCenter="0" horizontalCenter="0"
+					 includeInLayout="false" visible="false"/>
+</s:View>

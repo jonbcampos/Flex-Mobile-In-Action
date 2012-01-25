@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Accelerometer"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Accelerometer;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _accelerometer:Accelerometer;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler
+				if(!Accelerometer.isSupported)
+					return;
+				
+				_accelerometer = new Accelerometer();
+				_accelerometer.addEventListener(AccelerometerEvent.UPDATE, _onAccelerometer_UpdateHandler);
+				_accelerometer.setRequestedUpdateInterval(100);
+			}
+			
+			private function _onAccelerometer_UpdateHandler(event:AccelerometerEvent):void
+			{
+				//accelerometer update handler
+				dataLabel.text = "AccelerationX: "+event.accelerationX+"\n" +
+					"AccelerationY: "+event.accelerationY+"\n" +
+					"AccelerationZ: "+event.accelerationZ+"\n" +
+					"Timestamp: "+event.timestamp;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Label id="dataLabel" width="100%"/>
+</s:View>

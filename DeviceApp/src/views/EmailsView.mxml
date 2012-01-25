@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Emails">
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			protected function _onButton_ClickHandler(event:MouseEvent):void
+			{
+				var subject:String = escape(subjectInput.text);
+				var body:String = escape(messageInput.text);
+				navigateToURL(new URLRequest("mailto:"+emailInput.text+"?subject="+subject+"&body="+body));
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle"
+						  horizontalAlign="center"/>
+	</s:layout>
+	
+	<s:TextInput prompt="Email Address"
+				 id="emailInput"/>
+	<s:TextInput prompt="Subject"
+				 id="subjectInput"/>
+	<s:TextArea prompt="Message"
+				id="messageInput"/>
+	<s:Button label="Send Message"
+			  click="_onButton_ClickHandler(event)"/>
+</s:View>

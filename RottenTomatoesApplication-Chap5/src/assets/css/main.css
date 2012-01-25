@@ -1,0 +1,129 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|TabbedViewNavigatorApplication
+{
+	backgroundColor: #327d00;
+}
+
+s|ActionBar
+{
+	chromeColor: #327d00;
+}
+
+s|ActionBar #titleDisplay
+{
+	color: #eded00;
+}
+
+s|TabbedViewNavigator #tabBar
+{
+	chromeColor: #327d00;
+	color: #eded00;
+}
+
+@media (application-dpi:160)
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 10;
+		paddingTop: 5;
+		paddingBottom: 5;
+		fontSize: 18;
+	}
+	
+	s|Label.paragraphLabel
+	{
+		paddingLeft: 10;
+		paddingRight: 10;
+		fontSize: 14;
+	}
+}
+
+@media (application-dpi:240)
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 20;
+		paddingTop: 10;
+		paddingBottom: 10;
+		fontSize: 22;
+	}
+	
+	s|Label.paragraphLabel
+	{
+		paddingTop: 10;
+		paddingBottom: 10;
+		paddingLeft: 20;
+		paddingRight: 20;
+		fontSize: 20;
+	}
+}
+
+@media (application-dpi:320)
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 20;
+		paddingTop: 10;
+		paddingBottom: 10;
+		fontSize: 32;
+	}
+	
+	s|Label.paragraphLabel
+	{
+		paddingTop: 10;
+		paddingBottom: 10;
+		paddingLeft: 20;
+		paddingRight: 20;
+		fontSize: 24;
+	}
+}
+
+@media (application-dpi:160) and (os-platform:"IOS")
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 10;
+		paddingTop: 5;
+		paddingBottom: 5;
+		fontSize: 18;
+		textAlign:center;
+	}
+}
+
+@media (application-dpi:240) and (os-platform:"IOS")
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 20;
+		paddingTop: 10;
+		paddingBottom: 10;
+		fontSize: 22;
+		textAlign:center;
+	}
+}
+
+@media (application-dpi:320) and (os-platform:"IOS")
+{
+	s|Label.separatorLabel
+	{
+		backgroundColor: #327d00;
+		color: #eded00;
+		paddingLeft: 20;
+		paddingTop: 10;
+		paddingBottom: 10;
+		fontSize: 32;
+		textAlign:center;
+	}
+}

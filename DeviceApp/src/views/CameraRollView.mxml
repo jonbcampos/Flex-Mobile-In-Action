@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Camera Roll"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _cameraRoll:CameraRoll;
+			private var _loader:Loader;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler method
+				button.enabled = CameraRoll.supportsBrowseForImage;
+			}
+			
+			private function _onButton_ClickHandler(event:MouseEvent):void
+			{
+				//button click handler method
+				if(!_cameraRoll)
+				{
+					_cameraRoll = new CameraRoll();
+					_cameraRoll.addEventListener(MediaEvent.SELECT, _onCameraRoll_SelectHandler);
+				}
+				_cameraRoll.browseForImage();
+			}
+			
+			private function _onCameraRoll_SelectHandler(event:MediaEvent):void
+			{
+				//camera roll select handler method
+				var mediaPromise:MediaPromise = event.data;
+				
+				if(!_loader)
+				{
+					_loader = new Loader();
+					_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, _onMediaPromise_LoadedHandler);
+				}
+				_loader.loadFilePromise(mediaPromise);
+			}
+			
+			private function _onMediaPromise_LoadedHandler(event:Event):void
+			{
+				//media promise handler method
+				var loadedInfo:LoaderInfo = event.target as LoaderInfo;
+				image.source = loadedInfo.loader.content;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" 
+						  horizontalAlign="center"
+						  gap="10"/>
+	</s:layout>
+	
+	<s:Button label="Get Picture"
+			  click="_onButton_ClickHandler(event)"
+			  id="button"/>
+	
+	<s:Image id="image"/>
+	
+</s:View>

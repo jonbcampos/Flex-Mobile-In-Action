@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Home"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			private function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				var dataProvider:Array = [
+					{label:"Camera UI", view:CameraUIView},
+					{label:"getCamera()", view:GetCameraView},
+					{label:"Camera Roll", view:CameraRollView},
+					{label:"Accelerometer", view:AccelerometerView},
+					{label:"Geolocation", view:GeolocationView},
+					{label:"Website", view:WebsiteView},
+					{label:"Gestures", view:GesturesView},
+					{label:"Touch Events", view:TouchView},
+					{label:"SMS Texts", view:SmsView},
+					{label:"Emails", view:EmailsView},
+					{label:"Phone Calls", view:PhoneCallsView},
+					{label:"Map", view:MapsView},
+					{label:"Microphone", view:MicrophoneView},
+					{label:"Android Buttons", view:AndroidButtonsView},
+					{label:"QNX Bevel", view:QnxButtonsView}
+				];
+				list.dataProvider = new ArrayList(dataProvider);
+			}
+			
+			private function _onList_ChangeHandler(event:IndexChangeEvent):void
+			{
+				var selectedItem:Object = list.selectedItem;
+				navigator.pushView(selectedItem.view);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:List width="100%" height="100%"
+			id="list" labelField="label"
+			change="_onList_ChangeHandler(event)"/>
+</s:View>

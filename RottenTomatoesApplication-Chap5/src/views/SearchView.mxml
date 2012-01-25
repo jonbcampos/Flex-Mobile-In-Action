@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Search" xmlns:rottentomatoes="com.rottentomatoes.*">
+	<fx:Script>
+		<![CDATA[
+			import com.rottentomatoes.events.RottenTomatoesFaultEvent;
+			import com.rottentomatoes.events.RottenTomatoesResultEvent;
+			
+			import mx.collections.ArrayList;
+			import mx.utils.StringUtil;
+			
+			import spark.events.IndexChangeEvent;
+			
+			private function _onSearchButton_ClickHandler(event:MouseEvent):void
+			{
+				//remove any errors shown
+				errorLabel.visible = errorLabel.includeInLayout = false;
+				//trim any leading and trailing spaces
+				var term:String = StringUtil.trim( searchInput.text );
+				//if search term exists, search
+				if(term.length>0)
+					service.getMoviesByTerm( term );
+			}
+			
+			private function _onList_ChangeHandler(event:IndexChangeEvent):void
+			{
+				//do nothing now later we will add the
+				//push method to go to the DetailsView
+				navigator.pushView(DetailsView, list.selectedItem);
+			}
+			
+			private function _onService_ResultHandler(event:RottenTomatoesResultEvent):void
+			{
+				//get the results
+				var results:Array = event.result as Array;
+				//set the
+				list.dataProvider = new ArrayList( results );
+				//if no results, let user know
+				if(results.length==0)
+				{
+					errorLabel.visible = errorLabel.includeInLayout = true;
+					errorLabel.text = "No Results Returned";
+				}
+			}
+			
+			private function _onService_FaultHandler(event:RottenTomatoesFaultEvent):void
+			{
+				// display any errors
+				errorLabel.visible = errorLabel.includeInLayout = true;
+				errorLabel.text = event.fault.faultDetail;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<rottentomatoes:RottenTomatoesService id="service"
+											  apikey="z2eq9xmy8zpdezazprruedz2"
+											  result="_onService_ResultHandler(event)"
+											  fault="_onService_FaultHandler(event)"/>
+	</fx:Declarations>
+	
+	<s:titleContent>
+		<s:TextInput id="searchInput" width="100%"/>
+	</s:titleContent>
+	
+	<s:actionContent>
+		<s:Button label="Search"
+				  click="_onSearchButton_ClickHandler(event)"/>
+	</s:actionContent>
+
+	<!-- list of movie titles -->
+	<s:List width="100%" height="100%" id="list"
+			change="_onList_ChangeHandler(event)">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:IconItemRenderer
+					iconField="thumbnailPoster" 
+					iconWidth="61" iconHeight="91"
+					labelField="title"/>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	
+	<!-- error label -->
+	<s:Label id="errorLabel" width="100%" 
+			 backgroundColor="#000000" color="#FFFFFF"
+			 paddingBottom="20" paddingTop="20" 
+			 textAlign="center" verticalCenter="0"
+			 visible="false" includeInLayout="false"/>
+	
+</s:View>

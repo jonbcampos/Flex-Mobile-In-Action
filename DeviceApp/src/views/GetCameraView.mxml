@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="getCamera()"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				buttonBar.enabled = Camera.isSupported;
+				if(Camera.isSupported)
+					_getCamera();
+			}
+			
+			protected function _onButtonBar_ChangeHandler(event:IndexChangeEvent):void
+			{
+				_getCamera();
+			}
+			
+			private function _getCamera():void
+			{
+				var names:Array = Camera.names;
+				var i:int = -1;
+				var n:int = names.length;
+				
+				while(++i<n)
+				{
+					var cam:Camera = Camera.getCamera( names[i] as String);
+					if(cam && cam.position == buttonBar.selectedItem.label)
+					{
+						_attachCamera(cam);
+						return;
+					}
+				}
+				_attachCamera(Camera.getCamera());
+			}
+			
+			private var _video:Video;
+			private var _videoHolder:UIComponent;
+			
+			private function _attachCamera(camera:Camera):void
+			{
+				//setup camera
+				camera.setMode(400, 300, 15, false);
+				camera.setMotionLevel(0);
+				
+				if(!_video)
+				{
+					_video = new Video(320, 240);
+					
+					var m:Matrix = new Matrix();
+					m.rotate(Math.PI/2);
+					_video.transform.matrix = m;
+				}
+				
+				_video.attachCamera(camera);
+				
+				if(!_videoHolder)
+				{
+					_videoHolder = new UIComponent();
+					_videoHolder.x = 0;
+					_videoHolder.y = 0;
+					_videoHolder.x = ((videoDisplay.width/2) - (_video.width/2)) + _video.width;
+					_videoHolder.y = ((videoDisplay.height/2) - (_video.height/2)) - 50;
+					_videoHolder.addChild(_video);
+					videoDisplay.addElement(_videoHolder);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle" 
+						  horizontalAlign="center"
+						  gap="10"/>
+	</s:layout>
+	
+	<s:Group width="320" height="240"
+			 id="videoDisplay"/>
+	
+	<s:ButtonBar id="buttonBar" requireSelection="true"
+				 change="_onButtonBar_ChangeHandler(event)">
+		<s:dataProvider>
+			<s:ArrayList>
+				<fx:Object label="{CameraPosition.FRONT}"/>
+				<fx:Object label="{CameraPosition.BACK}"/>
+			</s:ArrayList>
+		</s:dataProvider>
+	</s:ButtonBar>
+	
+</s:View>

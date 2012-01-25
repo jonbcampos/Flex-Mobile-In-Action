@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Qnx Buttons"
+		viewActivate="_onView_ViewActivateHandler(event)"
+		viewDeactivate="_onView_ViewDeactivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.getDefinitionByName;
+			
+			import qnx.events.QNXApplicationEvent;
+			import qnx.system.QNXApplication;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				try
+				{
+					var c:Class = flash.utils.getDefinitionByName("qnx.system.QNXApplication") as Class;
+					var q:QNXApplication;
+					c.qnxApplication.addEventListener(QNXApplicationEvent.SWIPE_DOWN, _onView_SwipeDownHandler);
+				} catch(error:Error)
+				{
+					//do nothing
+				}
+			}
+			
+			private function _onView_SwipeDownHandler(event:QNXApplicationEvent):void
+			{
+				label.text = (label.text==event.type)?"":event.type;
+			}
+			
+			
+			protected function _onView_ViewDeactivateHandler(event:ViewNavigatorEvent):void
+			{
+				try
+				{
+					var c:Class = flash.utils.getDefinitionByName("qnx.system.QNXApplication") as Class;
+					var q:QNXApplication;
+					c.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_DOWN, _onView_SwipeDownHandler);
+				} catch(error:Error)
+				{
+					//do nothing
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:Label id="label"
+			 verticalCenter="0"
+			 horizontalCenter="0"/>
+	
+</s:View>

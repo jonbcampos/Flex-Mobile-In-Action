@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Phone Calls">
+	<fx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			
+			private function _onButton_ClickHandler(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("tel:"+phoneNumberInput.text));
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:layout>
+		<s:VerticalLayout verticalAlign="middle"
+						  horizontalAlign="center"/>
+	</s:layout>
+	
+	<s:TextInput prompt="Phone #" 
+				 id="phoneNumberInput"
+				 restrict="0123456789"/>
+	<s:Button label="Make Call"
+			  click="_onButton_ClickHandler(event)"/>
+	
+</s:View>

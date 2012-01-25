@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is an auto generated file and is not intended for modification. -->
+
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:flexui="flexunit.flexui.*"
+			   creationComplete="onCreationComplete()">
+	<fx:Script>
+		<![CDATA[
+			import test.unitedmindset.UtilsTestSuite;
+			import test.unitedmindset.utils.RendererUtilTest;
+			import test.unitedmindset.services.RotTomServiceTest;
+			
+			public function currentRunTestSuite():Array
+			{
+				var testsToRun:Array = new Array();
+				testsToRun.push(test.unitedmindset.services.RotTomServiceTest);
+				testsToRun.push(test.unitedmindset.utils.RendererUtilTest);
+				testsToRun.push(test.unitedmindset.UtilsTestSuite);
+				return testsToRun;
+			}
+			
+			
+			private function onCreationComplete():void
+			{
+				testRunner.runWithFlexUnit4Runner(currentRunTestSuite(), "RottenTomatoesLibrary-Chap9");
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<flexui:FlexUnitTestRunnerUISpark id="testRunner" portNumber="8765">
+	</flexui:FlexUnitTestRunnerUISpark>
+</s:Application>

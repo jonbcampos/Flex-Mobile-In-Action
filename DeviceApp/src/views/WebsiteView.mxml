@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Website View"
+		viewActivate="_onView_ViewActivateHandler(event)"
+		resize="_onView_ResizeHandler(event)"
+		viewDeactivate="_onView_ViewDeactivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ResizeEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _webstageView:StageWebView;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//vieActivate handler
+				_webstageView = new StageWebView();
+				_webstageView.viewPort = new Rectangle(0, navigator.actionBar.height, width, height);
+				_webstageView.stage = stage;
+				//_webstageView.loadURL("http://unitedmindset.com/jonbcampos");
+				_webstageView.loadString("<p>Flex Hero Rocks</p>");
+			}
+			
+			protected function _onView_ResizeHandler(event:ResizeEvent):void
+			{
+				//resize handler
+				if(_webstageView)
+					_webstageView.viewPort = new Rectangle(0, navigator.actionBar.height, width, height);
+			}
+			
+			protected function _onView_ViewDeactivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewDeactivate handler
+				_webstageView.stage = null;
+				_webstageView = null;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:View>

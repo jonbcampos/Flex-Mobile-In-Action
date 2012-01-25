@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="Rotten Tomatoes">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.FlexGlobals;
+			
+			import spark.events.IndexChangeEvent;
+			
+			protected function list1_changeHandler(event:IndexChangeEvent):void
+			{
+				var list:List = event.target as List;
+				var selectedItem:Object = list.selectedItem;
+				navigator.pushView(ListView, null, selectedItem.label);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:titleContent>
+		<s:Image>
+			<s:source>
+				<s:MultiDPIBitmapSource
+					source160dpi="@Embed('/assets/images/160dpi/rottentomatoes_logo.png')"
+					source240dpi="@Embed('/assets/images/240dpi/rottentomatoes_logo.png')"
+					source320dpi="@Embed('/assets/images/320dpi/rottentomatoes_logo.png')"/>
+			</s:source>
+		</s:Image>
+	</s:titleContent>
+	
+	<s:List width="100%" height="100%"
+			labelField="label"
+			change="list1_changeHandler(event)">
+		<s:dataProvider>
+			<s:ArrayList>
+				<fx:Object label="In Theaters"/>
+				<fx:Object label="Box Office"/>
+				<fx:Object label="Opening Now"/>
+				<fx:Object label="Coming Soon To Theaters"/>
+				<fx:Object label="Top Movie Rentals"/>
+				<fx:Object label="Currently on DVD"/>
+				<fx:Object label="New To DVD"/>
+				<fx:Object label="Soon To DVD"/>
+			</s:ArrayList>
+		</s:dataProvider>
+	</s:List>
+</s:View>

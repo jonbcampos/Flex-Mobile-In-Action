@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Touch Events"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _touchPoints:Object;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler
+				Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+				if(Multitouch.supportsTouchEvents)
+				{
+					label.text = "Supported Touch Points: "+Multitouch.maxTouchPoints;
+					addEventListener(TouchEvent.TOUCH_BEGIN, _onView_TouchBeginHandler);
+					addEventListener(TouchEvent.TOUCH_MOVE, _onView_TouchMoveHandler);
+					addEventListener(TouchEvent.TOUCH_END, _onView_TouchEndHandler);
+				} else {
+					label.text = "Multitouch Not Supported";
+				}
+			}
+			
+			protected function _onView_TouchBeginHandler(event:TouchEvent):void
+			{
+				//touch begin
+				var spot:BlueCircle = new BlueCircle();
+				
+				if(!_touchPoints) _touchPoints = {};
+				
+				_touchPoints[event.touchPointID] = spot;
+				
+				spot.x = event.localX-70;
+				spot.y = event.localY-70;
+				addElement(spot);
+			}
+			
+			protected function _onView_TouchMoveHandler(event:TouchEvent):void
+			{
+				//touch move
+				if(!_touchPoints || !_touchPoints[event.touchPointID])
+					return;
+				
+				var spot:BlueCircle = _touchPoints[event.touchPointID] as BlueCircle;
+				spot.x = event.localX-70;
+				spot.y = event.localY-70;
+			}
+			
+			protected function _onView_TouchEndHandler(event:TouchEvent):void
+			{
+				//touch end
+				if(!_touchPoints || !_touchPoints[event.touchPointID])
+					return;
+				
+				var spot:BlueCircle = _touchPoints[event.touchPointID] as BlueCircle;
+				removeElement(spot);
+				delete _touchPoints[event.touchPointID];
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+		<fx:Component className="BlueCircle">
+			<s:Ellipse width="120" height="120">
+				<s:fill>
+					<s:SolidColor color="#0000FF"/>
+				</s:fill>
+			</s:Ellipse>
+		</fx:Component>
+		
+	</fx:Declarations>
+	
+	<s:Label id="label"
+			 verticalCenter="0"
+			 horizontalCenter="0"/>
+	
+</s:View>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+								  xmlns:s="library://ns.adobe.com/flex/spark"
+								  preloader="spark.preloaders.SplashScreen"
+								  splashScreenImage="com.unitedmindset.utils.RottenTomatoesSplashScreen" 
+								  xmlns:unitedmindset="com.unitedmindset.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<unitedmindset:RottenTomatoesContext contextView="{this}"/>
+	</fx:Declarations>
+	<fx:Style source="/assets/css/main.css"/>
+	<s:SplitViewNavigator autoHideFirstViewNavigator="true"
+						  width="100%" height="100%"
+						  id="splitViewNavigator">
+		<s:ViewNavigator width="250" height="100%" id="menuNavigator" firstView="com.unitedmindset.views.MainMenuView"/>
+		<s:ViewNavigator width="100%" height="100%" id="navigator"/>
+	</s:SplitViewNavigator>
+</s:Application>

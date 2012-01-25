@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Microphone"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			private var _microphone:Microphone;
+			private var _recording:Boolean;
+			private var _timer:Timer;
+			
+			private var _soundBytes:ByteArray;
+			private var _sound:Sound;
+			private var _channel:SoundChannel;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler
+				if(!Microphone.isSupported)
+				{
+					recordButton.enabled = false;
+					return;
+				}
+				
+				_microphone = Microphone.getMicrophone();
+				_microphone.setLoopBack(false);
+				_microphone.rate = 44;
+				_microphone.gain = 100;
+				_microphone.setUseEchoSuppression(true);
+				_microphone.addEventListener(SampleDataEvent.SAMPLE_DATA, _onMic_SampleHandler);
+			}
+			
+			private function _onMic_SampleHandler(event:SampleDataEvent):void
+			{
+				//microphone sample handler
+				levelIndicator.width = _microphone.activityLevel*2 + 20;
+				
+				if(_recording)
+				{
+					while(event.data.bytesAvailable)
+					{
+						var sample:Number = event.data.readFloat();
+						_soundBytes.writeFloat( sample );
+					}
+				}
+			}
+			
+			protected function _onRecordButton_ClickHandler(event:MouseEvent):void
+			{
+				//record button click handler
+				_recording = true;
+				recordButton.enabled = false;
+				recordButton.label = "Recording";
+				
+				_soundBytes = new ByteArray();
+				
+				if(!_timer)
+				{
+					_timer = new Timer(4000);
+					_timer.addEventListener(TimerEvent.TIMER, _onTimer_TimerHandler);
+				}
+				_timer.reset();
+				_timer.start();
+			}
+			
+			private function _onTimer_TimerHandler(event:TimerEvent):void
+			{
+				//timer handler
+				_microphone.removeEventListener(SampleDataEvent.SAMPLE_DATA, _onMic_SampleHandler);
+				_timer.stop();
+				recordButton.label = "Playing";
+				_recording = false;
+				
+				_soundBytes.position = 0;
+				if(!_sound)
+				{
+					_sound = new Sound();
+					_sound.addEventListener(SampleDataEvent.SAMPLE_DATA, _onSound_SampleHandler);
+				}
+				_channel = _sound.play();
+				_channel.addEventListener(Event.SOUND_COMPLETE, _onChannel_SoundComplete);
+			}
+			
+			private function _onSound_SampleHandler(event:SampleDataEvent):void
+			{
+				//sound sample handler
+				for(var i:int = 0; i<8192 && _soundBytes.bytesAvailable>0; i++)
+				{
+					var sample:Number = _soundBytes.readFloat();
+					event.data.writeFloat( sample );
+					event.data.writeFloat( sample );
+				}
+			}
+			
+			private function _onChannel_SoundComplete(event:Event):void
+			{
+				//sound complete handler
+				_microphone.addEventListener(SampleDataEvent.SAMPLE_DATA, _onMic_SampleHandler);
+				recordButton.enabled = true;
+				recordButton.label = "Record";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Rect verticalCenter="0"
+			height="200"
+			left="0" width="50"
+			id="levelIndicator">
+		<s:fill>
+			<s:SolidColor color="0x0000FF"/>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Button label="Record" 
+			  id="recordButton"
+			  click="_onRecordButton_ClickHandler(event)"
+			  right="10" top="10"/>
+	
+</s:View>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SplashScreenImage xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<!-- iPhone 3 -->
+	<s:SplashScreenImageSource dpi="160" minResolution="460" source="@Embed(source='/assets/images/splash/Default.png')" />
+	<!-- iPhone 4 -->
+	<s:SplashScreenImageSource dpi="320" minResolution="920" source="@Embed(source='/assets/images/splash/Default@2x.png')" />
+	<!-- iPad Portrait -->
+	<s:SplashScreenImageSource dpi="160" minResolution="1004" source="@Embed(source='/assets/images/splash/Default-Portrait.png')"
+							   aspectRatio="portrait"/>
+	<!-- iPad Landscape -->
+	<s:SplashScreenImageSource dpi="160" minResolution="1024" source="@Embed(source='/assets/images/splash/Default-Landscape.png')"
+							   aspectRatio="landscape"/>
+	<!-- Android smartphones Portrait -->
+	<s:SplashScreenImageSource dpi="240" minResolution="762" source="@Embed(source='/assets/images/splash/Default-Android.png')"
+							   aspectRatio="portrait"/>
+	<!-- Android smartphones Landscape -->
+	<s:SplashScreenImageSource dpi="240" minResolution="800" source="@Embed(source='/assets/images/splash/Default-Android-Landscape.png')" aspectRatio="landscape"/>
+	<!-- Android tablets Portrait -->
+	<s:SplashScreenImageSource dpi="160" minResolution="980" source="@Embed(source='/assets/images/splash/Default-Android-Tablet.png')" aspectRatio="portrait"/>
+	<!-- Android tablets Landscape -->
+	<s:SplashScreenImageSource dpi="160" minResolution="980" source="@Embed(source='/assets/images/splash/Default-Android-Tablet-Landscape.png')" aspectRatio="landscape"/>
+	<!-- Default -->
+	<s:SplashScreenImageSource source="@Embed(source='/assets/images/splashscreenCenter.png')"/>
+</s:SplashScreenImage>

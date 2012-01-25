@@ -1,0 +1,76 @@
+#### `.gitignore`
+# xcode noise
+src/build/*
+src/docs/*
+src/docs
+*.mode1v3
+*.perspectivev3
+
+# SVN directories
+.svn
+# osx noise
+**/.DS_Store
+.DS_Store
+*.pbxuser
+profile
+
+####
+# flexbuilder
+####
+
+bin-debug
+bin-debug/*
+**/bin-debug
+bin-release
+bin-release/*
+**/bin-release
+bin
+**/bin
+**/html-template
+.actionScriptProperties
+**/.actionScriptProperties
+.flexProperties
+**/.flexProperties
+.flexLibProperties
+**/.flexLibProperties
+.fxpProperties
+**/.fxpProperties
+.FlexUnitSettings
+**/.FlexUnitSettings
+.project
+**/.project
+.settings
+**/.settings
+.metadata
+.metadata/*
+**/.metadata
+
+####
+# FlashDevelop
+####
+
+*.as3proj
+
+
+####
+# IntelliJ
+####
+
+**/*.iml
+
+####
+# ant stuff
+####
+
+build.properties
+##### 
+## ci stuff
+#####
+/build
+**/build
+/reports
+**/reports
+/release
+**/release
+/docs
+**/docs

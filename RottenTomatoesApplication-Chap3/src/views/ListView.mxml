@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:rottentomatoes="com.rottentomatoes.*"
+		viewActivate="_onView_viewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import com.rottentomatoes.events.RottenTomatoesFaultEvent;
+			import com.rottentomatoes.events.RottenTomatoesResultEvent;
+			import com.unitedmindset.managers.SQLPersistenceManager;
+			
+			import mx.collections.ArrayList;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.ViewNavigatorEvent;
+			import spark.managers.IPersistenceManager;
+			import spark.managers.PersistenceManager;
+			
+			private function _onView_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				var context:String = navigator.context as String;
+				title = context;
+				//
+				//var lso:SharedObject = SharedObject.getLocal("com.unitedmindset.RottenTomatoes");
+				//var listData:ArrayList = lso.data[title] as ArrayList;
+				//var timestamp:Number = lso.data[title+" Timestamp"] as Number;
+				//
+				//var database:SQLPersistenceManager = new SQLPersistenceManager();
+				//database.initialize();
+				//var listData:ArrayList = database.read(title) as ArrayList;
+				//var timestamp:Number = database.read(title+" Timestamp") as Number;
+				//
+				//var persistence:IPersistenceManager = new PersistenceManager();
+				var persistence:IPersistenceManager = new SQLPersistenceManager();
+				persistence.load();
+				var listData:ArrayList = persistence.getProperty(title) as ArrayList;
+				var timestamp:Number = persistence.getProperty(title+" Timestamp") as Number;
+				
+				var dataIsValid:Boolean;
+				if(!isNaN(timestamp))
+					dataIsValid = (new Date().time - 3600000) < timestamp;
+				if(listData && dataIsValid)
+				{
+					list.dataProvider = listData;
+					return;
+				}
+				//
+				service.addEventListener(RottenTomatoesResultEvent.RESULT, _onService_resultHandler);
+				service.addEventListener(RottenTomatoesFaultEvent.FAULT, _onService_faultHandler);
+				switch(context)
+				{
+					case "In Theaters":
+						service.getInTheaterMovies();
+						break;
+					case "Box Office":
+						service.getBoxOfficeMovies();
+						break;
+					case "Opening Now":
+						service.getOpeningMovies();
+						break;
+					case "Coming Soon To Theaters":
+						service.getUpcomingMovies();
+						break;
+					case "Top Movie Rentals":
+						service.getTopRentals();
+						break;
+					case "Currently on DVD":
+						service.getCurrentReleaseDvd();
+						break;
+					case "New To DVD":
+						service.getNewReleaseDvd();
+						break;
+					case "Soon To DVD":
+						service.getUpcomingDvd();
+						break;
+				}
+			}
+			
+			private function _onService_resultHandler(event:RottenTomatoesResultEvent):void
+			{
+				var listData:ArrayList = new ArrayList( event.result as Array );
+				list.dataProvider = listData;
+				//var lso:SharedObject = SharedObject.getLocal("com.unitedmindset.RottenTomatoes");
+				//lso.data[title] = listData;
+				//lso.data[title+" Timestamp"] = new Date().time;
+				//lso.flush();
+				
+				//var database:SQLPersistenceManager = new SQLPersistenceManager();
+				//database.initialize();
+				//database.write(title, listData);
+				//database.write(title+" Timestamp", new Date().time);
+				
+				//var persistence:IPersistenceManager = new PersistenceManager();
+				var persistence:IPersistenceManager = new SQLPersistenceManager();
+				persistence.load();
+				persistence.setProperty(title, listData);
+				persistence.setProperty(title+" Timestamp", new Date().time);
+				persistence.save();
+			}
+			
+			private function _onService_faultHandler(event:RottenTomatoesFaultEvent):void
+			{
+				errorLabel.visible = errorLabel.includeInLayout = true;
+				errorLabel.text = event.fault.faultDetail;
+			}
+			
+			private function _onList_changeHandler(event:IndexChangeEvent):void
+			{
+				navigator.pushView(DetailsView, list.selectedItem);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	<!-- Place non-visual elements (e.g., services, value objects) here -->
+	<rottentomatoes:RottenTomatoesService id="service"
+										  apikey="z2eq9xmy8zpdezazprruedz2"/>
+	</fx:Declarations>
+	<s:List width="100%" height="100%" id="list"
+			change="_onList_changeHandler(event)">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:IconItemRenderer
+					iconField="thumbnailPoster"
+					iconWidth="61" iconHeight="91"
+					labelField="title"/>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	
+	<!-- error label -->
+	<s:Label id="errorLabel" width="100%" 
+			 backgroundColor="#000000" color="#FFFFFF"
+			 paddingBottom="20" paddingTop="20" 
+			 textAlign="center" verticalCenter="0"
+			 visible="false" includeInLayout="false"/>
+
+</s:View>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="Gestures"
+		viewActivate="_onView_ViewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import spark.events.ViewNavigatorEvent;
+			
+			protected function _onView_ViewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				//viewActivate handler
+				if(!Multitouch.supportedGestures)
+					return;
+				
+				Multitouch.inputMode = MultitouchInputMode.GESTURE;
+				var gestures:Vector.<String> = Multitouch.supportedGestures;
+				
+				var i:int = -1;
+				var n:int = gestures.length;
+				while(++i<n)
+				{
+					switch(gestures[i])
+					{
+						case GestureEvent.GESTURE_TWO_FINGER_TAP:
+							addEventListener(GestureEvent.GESTURE_TWO_FINGER_TAP, _onView_GestureHandler);
+							break;
+						case PressAndTapGestureEvent.GESTURE_PRESS_AND_TAP:
+							addEventListener(PressAndTapGestureEvent.GESTURE_PRESS_AND_TAP, _onView_GestureHandler);
+							break;
+						case TransformGestureEvent.GESTURE_PAN:
+							addEventListener(TransformGestureEvent.GESTURE_PAN, _onView_GestureHandler);
+							break;
+						case TransformGestureEvent.GESTURE_ROTATE:
+							addEventListener(TransformGestureEvent.GESTURE_ROTATE, _onView_GestureHandler);
+							break;
+						case TransformGestureEvent.GESTURE_SWIPE:
+							addEventListener(TransformGestureEvent.GESTURE_SWIPE, _onView_GestureHandler);
+							break;
+						case TransformGestureEvent.GESTURE_ZOOM:
+							addEventListener(TransformGestureEvent.GESTURE_ZOOM, _onView_GestureHandler);
+							break;
+					}
+				}
+			}
+			
+			private function _onView_GestureHandler(event:Event):void
+			{
+				//gesture handler
+				dataLabel.text = event.type;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Label id="dataLabel"
+			 verticalCenter="0"
+			 horizontalCenter="0"/>
+</s:View>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		viewActivate="_onView_viewActivateHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import com.rottentomatoes.vos.MovieVO;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			private function _onView_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				var movie:MovieVO = data as MovieVO;
+				title = movie.title;
+				image.source = movie.detailedPoster;
+				details.text = movie.synopsis;
+				audienceScoreImage.source = movie.audienceIcon;
+				audienceScoreDetails.text = movie.audienceScore+"%";
+				criticsScoreImage.source = movie.criticsIcon;
+				criticsScoreDetails.text = movie.criticsScore+"%";
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%"
+				  clipAndEnableScrolling="true">
+			
+			<s:HGroup width="100%"
+					  paddingBottom="5" paddingLeft="5"
+					  paddingRight="5" paddingTop="5">
+				<s:Image id="image" width="180" height="267"/>
+				<s:VGroup width="100%">
+					<s:Label width="100%" text="Audience Score"/>
+					<s:HGroup width="100%"
+							  paddingBottom="5" paddingLeft="5"
+							  paddingRight="5" paddingTop="5">
+						<s:Image id="audienceScoreImage"/>
+						<s:Label id="audienceScoreDetails" width="100%"/>
+					</s:HGroup>
+					<s:Label width="100%" text="Critics Score"/>
+					<s:HGroup width="100%"
+							  paddingBottom="5" paddingLeft="5"
+							  paddingRight="5" paddingTop="5">
+						<s:Image id="criticsScoreImage"/>
+						<s:Label id="criticsScoreDetails" width="100%"/>
+					</s:HGroup>
+				</s:VGroup>
+				
+			</s:HGroup>
+			
+			<s:Label width="100%" text="Synopsis"/>
+			<s:Label id="details" width="100%"/>
+			
+		</s:VGroup>
+		
+	</s:Scroller>
+</s:View>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<qnx>
+   <!-- camera -->
+   <action>use_camera</action>
+   <action>access_shared</action>
+   <!-- geolocation -->
+   <action>read_geolocation</action>
+   <!-- audio -->
+   <action>play_audio</action>
+   <action>record_audio</action>
+</qnx>
