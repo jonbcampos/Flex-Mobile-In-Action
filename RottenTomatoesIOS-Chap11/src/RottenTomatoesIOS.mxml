@@ -3,7 +3,26 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   preloader="spark.preloaders.SplashScreen"
 			   splashScreenImage="@Embed('/assets/images/splashscreen.png')" 
-			   xmlns:unitedmindset="com.unitedmindset.*">
+			   xmlns:unitedmindset="com.unitedmindset.*"
+			   preinitialize="_preinitializeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			private function _preinitializeHandler(event:FlexEvent):void
+			{
+				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, _onApp_invokeHandler);
+			}
+			
+			private function _onApp_invokeHandler(event:InvokeEvent):void
+			{
+				NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, _onApp_invokeHandler);
+				var arguements:Array = event.arguments;
+				//do something
+			}
+			
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<unitedmindset:RottenTomatoesContext id="context" contextView="{this}"/>

@@ -16,11 +16,7 @@ package com.unitedmindset.views.mediators
 	import com.unitedmindset.views.UpcomingDvdView;
 	import com.unitedmindset.views.UpcomingTheatersView;
 	
-	import flash.desktop.NativeApplication;
 	import flash.display.DisplayObjectContainer;
-	import flash.events.InvokeEvent;
-	
-	import mx.events.FlexEvent;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
@@ -65,7 +61,7 @@ package com.unitedmindset.views.mediators
 			//
 			//  view add listeners
 			//
-			view.addEventListener(FlexEvent.PREINITIALIZE, _onView_preinitializeHandler);
+			
 			//
 			//  system add listeners
 			//
@@ -84,7 +80,7 @@ package com.unitedmindset.views.mediators
 			//
 			//  view remove listeners
 			//
-			view.removeEventListener(FlexEvent.PREINITIALIZE, _onView_preinitializeHandler);
+			
 			//
 			//  system remove listeners
 			//
@@ -110,17 +106,7 @@ package com.unitedmindset.views.mediators
 		//-----------------------------
 		//  view handlers
 		//-----------------------------
-		private function _onView_preinitializeHandler(event:FlexEvent):void
-		{
-			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, _onApp_invokeHandler);
-		}
 		
-		private function _onApp_invokeHandler(event:InvokeEvent):void
-		{
-			NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, _onApp_invokeHandler);
-			var arguements:Array = event.arguments;
-			//do something
-		}
 		//-----------------------------
 		//  system handlers
 		//-----------------------------
